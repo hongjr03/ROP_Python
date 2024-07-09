@@ -204,7 +204,7 @@ def gamma0(img):
     return img
 
 
-def rank1plus_enhancement(img, ImageType):
+def rank1_enhancement(img, ImageType):
 
     param = defaultParamSetting(ImageType)
 
@@ -259,6 +259,10 @@ def rank1plus_enhancement(img, ImageType):
     cv2.normalize(Jr, Jr, 0, 255, cv2.NORM_MINMAX)
     Jr = np.uint8(Jr)
     Jr = gamma0(Jr)
+    
+    T_tv = np.uint8(T_tv * 255)
+    T_ini = np.uint8(T_ini * 255)
+    
     return Jr, T_tv, T_ini
 
 
@@ -272,11 +276,7 @@ def main():
         image = cv2.imread(img_path)
         image = image / 255.0
 
-        Jr, T_tv, T_ini = rank1plus_enhancement(image, 3)
-
-        # Jr = cv2.cvtColor(Jr, cv2.COLOR_BGR2RGB)
-        # T_tv = cv2.cvtColor(T_tv, cv2.COLOR_BGR2RGB)
-        # T_ini = cv2.cvtColor(T_ini, cv2.COLOR_BGR2RGB)
+        Jr, T_tv, T_ini = rank1_enhancement(image, 3)
 
         if not os.path.exists("results"):
             os.makedirs("results")
